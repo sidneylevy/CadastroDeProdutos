@@ -4,7 +4,7 @@ package dev.Java.CadastroDeProdutos.Produtos;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/produto")
 public class ProdutoController {
 
     @GetMapping("/boasvindas")
@@ -20,13 +20,13 @@ public class ProdutoController {
     }
 
     // Mostrar produto por id (READ)
-    @GetMapping("/mostrarTodos")
+    @GetMapping("/listarTodos")
     public String todosProduto() {
         return "Todos os produtos";
     }
 
     // Mostrar todos os produtos (READ)
-    @GetMapping("/mostrarPorID")
+    @GetMapping("/listarPorID")
     public String mostrarProdutoID() {
         return "Mostrar por ID";
     }

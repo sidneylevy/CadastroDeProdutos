@@ -4,7 +4,7 @@ package dev.Java.CadastroDeProdutos.Fornecedor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("fornecedor")
+@RequestMapping("/fornecedor")
 public class FornecedorController {
 
     // GET -- Mandadr uma requisição para listar os fornecedores
