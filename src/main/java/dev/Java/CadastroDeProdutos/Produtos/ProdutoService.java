@@ -4,6 +4,7 @@ package dev.Java.CadastroDeProdutos.Produtos;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProdutoService {
@@ -20,14 +21,16 @@ public class ProdutoService {
             return  produtoRepository.findAll();
     }
 
-    // listar produto por id
+
 
     // Adicionar um produto
     public ProdutoModel  adcionarProduto(ProdutoModel produto) {
         return   produtoRepository.save(produto);
     }
 
+    // listar produto por id
     public ProdutoModel listarProdutosPorID(Long id) {
-        return produtoRepository.findById(id).orElse(null);
+        return produtoRepository.findById(id)
+                .orElseThrow(() -> new ProdutoNaoEncontradoException("Esse id não esta cadastrado"));
     }
 }

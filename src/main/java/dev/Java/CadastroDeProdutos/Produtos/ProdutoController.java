@@ -2,9 +2,12 @@ package dev.Java.CadastroDeProdutos.Produtos;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 @RestController
@@ -38,7 +41,15 @@ public class ProdutoController {
 
     // Mostrar todos os produtos (READ)
     @GetMapping("/listarPorID/{id}")
-    public ProdutoModel listarProdutoID(@PathVariable Long id) {return produtoService.listarProdutosPorID(id);
+    public ResponseEntity<?> listarProdutoID(@PathVariable Long id) {
+       try {
+           ProdutoModel produto = produtoService.listarProdutosPorID(id);
+           return ResponseEntity.ok().body(produto);
+       }
+       catch(ProdutoNaoEncontradoException e) {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+       }
+
     }
 
     // Alterar da dados do produto (UPDATE)
