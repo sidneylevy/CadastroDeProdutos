@@ -1,5 +1,6 @@
 package dev.Java.CadastroDeProdutos.Fornecedor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dev.Java.CadastroDeProdutos.Produtos.ProdutoModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class FornecedorModel {
 
     // @OneToMany - um fornecedor pode ter varios produtos
     @OneToMany(mappedBy = "fornecedor")
+    @JsonIgnore
     private List<ProdutoModel> produto;
 
 }
