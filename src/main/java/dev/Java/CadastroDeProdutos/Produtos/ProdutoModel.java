@@ -37,6 +37,6 @@ public class ProdutoModel {
 
     // @ManyToOne - um produto tem apenas um fornecedor
     @ManyToOne
-    @JoinColumn(name = "forncedor_id") // Foreing Key ou chave estrangeira
+    @JoinColumn(name = "fornecedor_id") // Foreing Key ou chave estrangeira
     private FornecedorModel fornecedor;
 }

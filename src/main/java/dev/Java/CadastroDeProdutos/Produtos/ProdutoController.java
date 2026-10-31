@@ -1,11 +1,24 @@
 package dev.Java.CadastroDeProdutos.Produtos;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Scanner;
 
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
+
+    Scanner sc = new Scanner(System.in);
+
+
+    private ProdutoService produtoService;
+
+    public ProdutoController(ProdutoService produtoService) {
+        this.produtoService = produtoService;
+    }
 
     @GetMapping("/boasvindas")
     public String boasVindas() {
@@ -15,20 +28,17 @@ public class ProdutoController {
 
     // Adicionar Produto (CREAT)
     @PostMapping("/criar")
-    public String criarProduto() {
-        return "Criando um produto";
-    }
+    public ProdutoModel criarProduto(@RequestBody ProdutoModel produto) {return produtoService.adcionarProduto(produto);}
 
     // Mostrar produto por id (READ)
     @GetMapping("/listarTodos")
-    public String todosProduto() {
-        return "Todos os produtos";
+    public List<ProdutoModel> listarProduto() {
+        return produtoService.listarProdutos();
     }
 
     // Mostrar todos os produtos (READ)
-    @GetMapping("/listarPorID")
-    public String mostrarProdutoID() {
-        return "Mostrar por ID";
+    @GetMapping("/listarPorID/{id}")
+    public ProdutoModel listarProdutoID(@PathVariable Long id) {return produtoService.listarProdutosPorID(id);
     }
 
     // Alterar da dados do produto (UPDATE)
@@ -43,4 +53,5 @@ public class ProdutoController {
         return "Deletar o produto po id";
     }
 
+    ;
 }

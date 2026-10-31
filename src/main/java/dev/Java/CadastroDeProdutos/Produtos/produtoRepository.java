@@ -1,4 +1,6 @@
 package dev.Java.CadastroDeProdutos.Produtos;
 
-public interface produtoRepisitory {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface produtoRepository extends JpaRepository<ProdutoModel,Long> {
 }
