@@ -35,6 +35,9 @@ public class ProdutoModel {
     @Column(unique = true) // Usar para dados unicos
     private String serialnamber;
 
+    @Column(name = "marca")
+    private String marca;
+
     // @ManyToOne - um produto tem apenas um fornecedor
     @ManyToOne
     @JoinColumn(name = "fornecedor_id") // Foreing Key ou chave estrangeira

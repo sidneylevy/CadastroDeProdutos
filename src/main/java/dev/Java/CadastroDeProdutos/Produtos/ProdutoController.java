@@ -31,15 +31,18 @@ public class ProdutoController {
 
     // Adicionar Produto (CREAT)
     @PostMapping("/criar")
-    public ProdutoModel criarProduto(@RequestBody ProdutoModel produto) {return produtoService.adcionarProduto(produto);}
+    public ProdutoModel criarProduto(@RequestBody ProdutoModel produto) {
+        return produtoService.adcionarProduto(produto);}
 
-    // Mostrar produto por id (READ)
+
+    // Mostrar todos os produtos (READ)
     @GetMapping("/listarTodos")
     public List<ProdutoModel> listarProduto() {
         return produtoService.listarProdutos();
     }
 
-    // Mostrar todos os produtos (READ)
+
+    // Mostrar produto por id (READ)
     @GetMapping("/listarPorID/{id}")
     public ResponseEntity<?> listarProdutoID(@PathVariable Long id) {
        try {
@@ -52,7 +55,7 @@ public class ProdutoController {
 
     }
 
-    // Alterar da dados do produto (UPDATE)
+    // Alterar dados do produto (UPDATE)
     @PutMapping("/alterarID")
     public String alterarProdutoID() {
         return "Alterar o produto po id";

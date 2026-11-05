@@ -24,7 +24,7 @@ public class ProdutoService {
 
 
     // Adicionar um produto
-    public ProdutoModel  adcionarProduto(ProdutoModel produto) {
+    public ProdutoModel  adcionarProduto( ProdutoModel produto) {
         return   produtoRepository.save(produto);
     }
 
