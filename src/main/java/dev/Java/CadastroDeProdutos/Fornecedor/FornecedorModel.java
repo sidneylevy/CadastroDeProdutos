@@ -24,7 +24,7 @@ public class FornecedorModel {
 
     // @OneToMany - um fornecedor pode ter varios produtos
     @OneToMany(mappedBy = "fornecedor")
-    @JsonIgnore
+    @JsonIgnore // Não gerar de loop de serialização
     private List<ProdutoModel> produto;
 
 }
