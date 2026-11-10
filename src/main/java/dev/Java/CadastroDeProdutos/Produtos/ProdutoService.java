@@ -10,10 +10,11 @@ public class ProdutoService {
 
 
     private produtoRepository produtoRepository;
+    private ProdutoMapper produtoMapper;
 
-    public ProdutoService(produtoRepository produtoRepository) {
-
+    public ProdutoService(produtoRepository produtoRepository, ProdutoMapper produtoMapper) {
         this.produtoRepository = produtoRepository;
+        this.produtoMapper = produtoMapper;
     }
 
     // Listar todos os meus produtos
@@ -24,9 +25,11 @@ public class ProdutoService {
 
 
     // Adicionar um produto
-    public ProdutoModel  adcionarProduto(ProdutoModel produto) {
+    public ProdutoDTO adcionarProduto(ProdutoDTO produtoDTO) {
+        ProdutoModel produto = produtoMapper.map(produtoDTO);
+        produto = produtoRepository.save(produto);
+        return produtoMapper.map(produto);
 
-        return   produtoRepository.save(produto);
     }
 
     // listar produto por id
