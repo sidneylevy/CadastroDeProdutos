@@ -44,9 +44,14 @@ public class FornecedorController {
     }
 
     // PUT -- Mandadr uma requisição para alterar os fornecedores
-    @PutMapping("/alterar")
-    public String alterarFornecedor() {
-        return "fornecedor alterado";
+    @PutMapping("/alterar/{id}")
+    public ResponseEntity<?> alterarFornecedor(Long id, @RequestBody FornecedorModel fornecedorModel) {
+        try{
+            FornecedorModel fornecedorModelAtualiza =  fornecedorService.atualizarFornecedor(id,  fornecedorModel);
+            return ResponseEntity.ok().body(fornecedorModelAtualiza);
+        }catch(ForcedorNaoEncontrado e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     // DELETE -- Mandadr uma requisição para deletar os fornecedores
