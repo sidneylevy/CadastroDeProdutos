@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -33,7 +34,7 @@ public class ProdutoController {
 
     // Mostrar todos os produtos (READ)
     @GetMapping("/listarTodos")
-    public List<ProdutoModel> listarProduto() {
+    public List<ProdutoDTO> listarProduto() {
         return produtoService.listarProdutos();
     }
 
@@ -42,7 +43,7 @@ public class ProdutoController {
     @GetMapping("/listarPorID/{id}")
     public ResponseEntity<?> listarProdutoID(@PathVariable Long id) {
        try {
-           ProdutoModel produto = produtoService.listarProdutosPorID(id);
+           ProdutoDTO produto = produtoService.listarProdutosPorID(id);
            return ResponseEntity.ok().body(produto);
        }
        catch(ProdutoNaoEncontradoException e) {
@@ -52,8 +53,22 @@ public class ProdutoController {
     }
     // Alterar dados do produto (UPDATE)
     @PutMapping("/atualizarID/{id}")
-    public ProdutoModel alterarProdutoID(@PathVariable Long id, @RequestBody ProdutoModel produto) {
-        return produtoService.atualizarProduto(id, produto);
+    public ResponseEntity<?> alterarProdutoID(@PathVariable Long id, @RequestBody ProdutoDTO produto) {
+
+        ProdutoDTO produtoAtualizado = produtoService.atualizarProduto(id, produto);
+
+        if (produtoAtualizado != null) {
+            return ResponseEntity.ok(Map.of(
+                    "Mensagem", "Produto atualizado com sucesso!",
+                    "Produto", produtoAtualizado
+            ));
+
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "Mensagem", "Erro ao atualizar produto!"
+            ));
+        }
+
     }
 
     // Deletar produto (DELETE)

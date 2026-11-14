@@ -4,6 +4,8 @@ package dev.Java.CadastroDeProdutos.Produtos;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
@@ -18,11 +20,14 @@ public class ProdutoService {
     }
 
     // Listar todos os meus produtos
-    public List<ProdutoModel>  listarProdutos() {
-            return  produtoRepository.findAll();
+    public List<ProdutoDTO>  listarProdutos() {
+        List<ProdutoModel> produtos = produtoRepository.findAll();
+        return produtos.stream()
+                .map(produtoMapper::map)
+                .collect(Collectors.toList());
+
+
     }
-
-
 
     // Adicionar um produto
     public ProdutoDTO adcionarProduto(ProdutoDTO produtoDTO) {
@@ -33,18 +38,22 @@ public class ProdutoService {
     }
 
     // listar produto por id
-    public ProdutoModel listarProdutosPorID(Long id) {
-        return produtoRepository.findById(id)
-                .orElseThrow(() -> new ProdutoNaoEncontradoException("Esse id não esta cadastrado"));
+    public ProdutoDTO listarProdutosPorID(Long id) {
+        Optional<ProdutoModel> produto = produtoRepository.findById(id);
+        return produto.map(produtoMapper::map)
+                .orElseThrow(() -> new ProdutoNaoEncontradoException("Informo que esse ID não existe"));
+
+
     }
 
     // Altualizar informacoes do produto
-    public ProdutoModel atualizarProduto(Long id, ProdutoModel produtoAtualizado) {
-        if(produtoRepository.existsById(id)) {
+    public ProdutoDTO atualizarProduto(Long id, ProdutoDTO  produtoDTO) {
+        Optional<ProdutoModel> produtoExistente = produtoRepository.findById(id);
+        if (produtoExistente.isPresent()) {
+            ProdutoModel produtoAtualizado = produtoMapper.map(produtoDTO);
             produtoAtualizado.setId(id);
-            return produtoRepository.save(produtoAtualizado);
-        }else {
-            System.out.println("Produto não encontrado, verifique se o id esta correto");
+            ProdutoModel produtoSalvo = produtoRepository.save(produtoAtualizado);
+            return produtoMapper.map(produtoSalvo);
         }
         return null;
     }
