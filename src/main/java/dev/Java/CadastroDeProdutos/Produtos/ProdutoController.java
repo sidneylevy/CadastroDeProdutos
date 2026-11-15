@@ -1,12 +1,15 @@
 package dev.Java.CadastroDeProdutos.Produtos;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import dev.Java.CadastroDeProdutos.Fornecedor.FornecedorModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -23,21 +26,15 @@ public class ProdutoController {
         this.produtoService = produtoService;
     }
 
-    @GetMapping("/boasvindas")
-    public String boasVindas() {
-        return "Primeira mensagem dessa rota";
-    }
-
-
     // Adicionar Produto (CREAT)
     @PostMapping("/criar")
-    public ProdutoModel criarProduto(@RequestBody ProdutoModel produto) {
+    public ProdutoDTO criarProduto(@RequestBody ProdutoDTO produto) {
         return produtoService.adcionarProduto(produto);}
 
 
     // Mostrar todos os produtos (READ)
     @GetMapping("/listarTodos")
-    public List<ProdutoModel> listarProduto() {
+    public List<ProdutoDTO> listarProduto() {
         return produtoService.listarProdutos();
     }
 
@@ -46,7 +43,7 @@ public class ProdutoController {
     @GetMapping("/listarPorID/{id}")
     public ResponseEntity<?> listarProdutoID(@PathVariable Long id) {
        try {
-           ProdutoModel produto = produtoService.listarProdutosPorID(id);
+           ProdutoDTO produto = produtoService.listarProdutosPorID(id);
            return ResponseEntity.ok().body(produto);
        }
        catch(ProdutoNaoEncontradoException e) {
@@ -54,17 +51,38 @@ public class ProdutoController {
        }
 
     }
-
     // Alterar dados do produto (UPDATE)
-    @PutMapping("/alterarID")
-    public String alterarProdutoID() {
-        return "Alterar o produto po id";
+    @PutMapping("/atualizarID/{id}")
+    public ResponseEntity<?> alterarProdutoID(@PathVariable Long id, @RequestBody ProdutoDTO produto) {
+
+        ProdutoDTO produtoAtualizado = produtoService.atualizarProduto(id, produto);
+
+        if (produtoAtualizado != null) {
+            return ResponseEntity.ok(Map.of(
+                    "Mensagem", "Produto atualizado com sucesso!",
+                    "Produto", produtoAtualizado
+            ));
+
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "Mensagem", "Erro ao atualizar produto!"
+            ));
+        }
+
     }
 
     // Deletar produto (DELETE)
-    @DeleteMapping("/deletarID")
-    public String deletarProdutoID() {
-        return "Deletar o produto po id";
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<?> deletarProdutoPorID(@PathVariable Long id) {
+
+        try {
+         ProdutoModel produto = produtoService.deletarProdutoPorID(id);
+         return ResponseEntity.ok().body(produto);
+
+        } catch (ProdutoNaoEncontradoException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
     }
 
     ;

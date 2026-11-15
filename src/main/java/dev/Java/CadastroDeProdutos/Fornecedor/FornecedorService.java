@@ -16,7 +16,7 @@ public class FornecedorService {
     }
 
     // Listar todos os fornecedores
-    public List<FornecedorModel>  listarFornecedores(){
+    public List<FornecedorModel> listarFornecedores() {
         return fornecedorRepository.findAll();
     }
 
@@ -33,21 +33,26 @@ public class FornecedorService {
 
 
     // Alterar informação do fornecedor
-
+    public FornecedorModel atualizarFornecedor(Long id, FornecedorModel fornecedorModel) {
+        if (fornecedorRepository.existsById(id)) {
+            fornecedorModel.setId(id);
+            return fornecedorRepository.save(fornecedorModel);
+        } else {
+            System.out.println("O id informado não existe.");
+        }
+        return null;
+    }
 
     // Deletar um fornecedor
     public FornecedorModel deletarFornecedor(Long id) {
-        if(!fornecedorRepository.existsById(id)) {
-        throw new ForcedorNaoEncontrado("Fornecedor não encontrado, verifique se o id esta correto.");
-        }
-        else {
+        if (!fornecedorRepository.existsById(id)) {
+            throw new ForcedorNaoEncontrado("Fornecedor não encontrado, verifique se o id esta correto.");
+        } else {
             fornecedorRepository.deleteById(id);
             System.out.println("Fornecedor removido com sucesso");
         }
         return null;
     }
-
-
 
 
 }
