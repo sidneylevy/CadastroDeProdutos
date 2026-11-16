@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 public class ProdutoService {
 
 
-    private produtoRepository produtoRepository;
-    private ProdutoMapper produtoMapper;
+    private final produtoRepository produtoRepository;
+    private final ProdutoMapper produtoMapper;
 
     public ProdutoService(produtoRepository produtoRepository, ProdutoMapper produtoMapper) {
         this.produtoRepository = produtoRepository;

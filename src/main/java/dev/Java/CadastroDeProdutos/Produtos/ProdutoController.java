@@ -12,10 +12,7 @@ import java.util.Scanner;
 @RequestMapping("/produto")
 public class ProdutoController {
 
-    Scanner sc = new Scanner(System.in);
-
-
-    private ProdutoService produtoService;
+    private final ProdutoService produtoService;
 
     public ProdutoController(ProdutoService produtoService) {
         this.produtoService = produtoService;
