@@ -12,6 +12,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "fornecedor")
 public class ProdutoModel {
 
     @Id
