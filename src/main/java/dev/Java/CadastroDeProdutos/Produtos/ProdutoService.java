@@ -41,7 +41,7 @@ public class ProdutoService {
     public ProdutoDTO listarProdutosPorID(Long id) {
         Optional<ProdutoModel> produto = produtoRepository.findById(id);
         return produto.map(produtoMapper::map)
-                .orElseThrow(() -> new ProdutoNaoEncontradoException("Informo que esse ID não existe"));
+                .orElse(null);
 
 
     }
@@ -60,14 +60,10 @@ public class ProdutoService {
 
 
     // Deletar produto po id
-    public ProdutoModel deletarProdutoPorID(Long id) {
-        if (produtoRepository.existsById(id)) {
-            throw new ProdutoNaoEncontradoException("Esse produto não esta cadastrado");
+    public void deletarProdutoPorID(Long id) {
+        if(!produtoRepository.existsById(id)){
+            throw new ProdutoNaoEncontradoException("Não existe produto com o ID "  + id);
         }
-        else {
-          produtoRepository.deleteById(id);
-            System.out.println("Produto removido com sucesso");
-        }
-        return null;
+        produtoRepository.deleteById(id);
     }
 }

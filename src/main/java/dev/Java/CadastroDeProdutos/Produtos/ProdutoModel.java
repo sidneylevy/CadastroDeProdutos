@@ -5,7 +5,6 @@ import dev.Java.CadastroDeProdutos.Fornecedor.FornecedorModel;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 // Entity transforma uma classe em uma entidade do DB
 @Entity
