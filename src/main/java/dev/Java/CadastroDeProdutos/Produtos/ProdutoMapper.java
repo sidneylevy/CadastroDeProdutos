@@ -16,6 +16,7 @@ public class ProdutoMapper {
            produtoModel.setSerialnamber(produtoDTO.getSerialnamber());
            produtoModel.setMarca(produtoDTO.getMarca());
            produtoModel.setFornecedor(produtoDTO.getFornecedor());
+           produtoModel.setImagem(produtoDTO.getImagem());
 
            return produtoModel;
 
@@ -31,6 +32,7 @@ public class ProdutoMapper {
             produtoDTO.setSerialnamber(produtoModel.getSerialnamber());
             produtoDTO.setMarca(produtoModel.getMarca());
             produtoDTO.setFornecedor(produtoModel.getFornecedor());
+            produtoDTO.setImagem(produtoModel.getImagem());
 
             return produtoDTO;
         }
