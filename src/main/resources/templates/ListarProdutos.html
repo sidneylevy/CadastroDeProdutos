@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cadastro de Produtos</title>
+  <link rel="stylesheet" href="../../static/css/cadastro.css">
   <style>
     * {
       padding: 0;
@@ -20,8 +21,21 @@
 
     h1 {
       text-align: center;
-      color: #333;
+      color: #4c74af;
+      margin-bottom: 15px;
     }
+
+    .btn-adicionar {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 8px 16px;
+      background-color: #4c74af;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
 
     table {
       width: 100%;
@@ -29,46 +43,68 @@
       margin: 20px 0;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       background-color: #fff;
+      table-layout: auto;
     }
 
+    /* SEGREDO DO ALINHAMENTO */
     th, td {
-      padding: 12px;
-      text-align: left;
+      padding: 12px 8px;
+      text-align: center;
+      vertical-align: middle;
       border-bottom: 1px solid #ddd;
     }
 
     th {
-      background-color: #4CAF50;
       color: white;
+      background-color:  #4c74af;
+      white-space: nowrap;
     }
 
-    tr{
-      width: 100%;
-      display: flex;
-      flex-direction: row;
+    th:nth-child(3), td:nth-child(3),
+    th:nth-child(4), td:nth-child(4) {
+      text-align: left;
     }
+
+    /* Larguras fixas pra não dançar */
+    th:nth-child(1), td:nth-child(1) { width: 90px; }
+    th:nth-child(2), td:nth-child(2) { width: 50px; }
+    th:nth-child(5), td:nth-child(5) { width: 80px; }
+    th:nth-child(6), td:nth-child(6) { width: 90px; }
+    th:nth-child(10), td:nth-child(10) { width: 260px; }
 
     tr:hover {
-      background-color: #f1f1f1;
+      background-color: #d8e8fb;
     }
 
-    img {
-      border-radius: 50%;
+    /* IMAGEM - todas do mesmo tamanho */
+    td img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+      border-radius: 8px;
+    }
+
+    /* BOTÕES */
+    td:last-child {
+      white-space: nowrap;
     }
 
     a {
       display: inline-block;
-      padding: 8px 16px;
-      margin: 4px;
+      padding: 8px 12px;
+      margin: 2px;
       text-decoration: none;
       border-radius: 5px;
       color: white;
-      background-color: #4CAF50;
+      background-color:  #4c74af;
       transition: background-color 0.3s;
+      font-size: 13px;
     }
 
     a:hover {
-      background-color: #45a049;
+      background-color:  #4c74af;
     }
 
     .btn-deletar {
@@ -79,7 +115,6 @@
       background-color: #d32f2f;
     }
   </style>
-
 </head>
 <body>
 
@@ -89,6 +124,7 @@
 <table>
   <thead>
   <tr>
+    <th>Imagem</th>
     <th>ID</th>
     <th>Nome</th>
     <th>Descrição</th>
@@ -97,35 +133,31 @@
     <th>Numero/Serie</th>
     <th>Marca</th>
     <th>Fornecedor</th>
+    <th>Opções</th>
   </tr>
   </thead>
   <tbody>
-
   <tr th:each="produto : ${produtos}">
+    <td><img th:src="${produto.imagem}" alt="Foto do produto" width="60" height="60"></td>
     <td th:text="${produto.id}"></td>
     <td th:text="${produto.nome}"></td>
-    <td><img th:src="${produto.imagem}" alt="Foto do produto"></td>
     <td th:text="${produto.descricao}"></td>
     <td th:text="${produto.preco}"></td>
     <td th:text="${produto.quantidade}"></td>
     <td th:text="${produto.serialnamber}"></td>
     <td th:text="${produto.marca}"></td>
     <td>
-      <span th:if="${produto.fornecedor}"><span th:text="${produto.nome}"> <span
-              th:text="${produto.setor}"></span></span> </span>
-      <span th:if="${produto.fornecedor == null}" th:text="'Sem Missões'"></span>
+      <span th:if="${produto.fornecedor}" th:text="${produto.fornecedor.nome}"></span>
+      <span th:if="${produto.fornecedor == null}" th:text="'Sem Fornecedor'"></span>
     </td>
-
     <td>
       <a th:href="@{/produto/ui/listarPorID/{id}(id=${produto.id})}">Ver Detalhes</a>
-      <a th:href="@{/produto/ui/#/{id}(id=${produto.id})}">Alterar</a>
+      <a th:href="@{/produto/ui/alterar/{id}(id=${produto.id})}">Alterar</a>
       <a class="btn-deletar" th:href="@{/produto/ui/deletar/{id}(id=${produto.id})}">Deletar</a>
     </td>
-
   </tr>
   </tbody>
 </table>
-
 
 </body>
 </html>
